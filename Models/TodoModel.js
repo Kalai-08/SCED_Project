@@ -5,7 +5,18 @@ const Todo_Schema = mongoose.Schema({
         type: String,
         required : true,
     },
-    description: String
+
+    description: {
+        type :String,
+        default : "",
+    },
+    
+    deadline : {
+        type : Date,
+        required : true,
+    },
+
+    priority : String,
 },{
     timestamps : true
 }
