@@ -382,7 +382,7 @@ function TasksPage() {
           {!visibleEvents.length && (
             <div className="flex min-h-[38vh] items-center justify-center">
               <div className="text-center">
-                <p className="text-sm font-semibold text-slate-700">{emptyStateText.title}</p>
+                <p className="text-base font-semibold text-slate-700">{emptyStateText.title}</p>
                 <p className="mt-1 text-xs text-slate-500">{emptyStateText.subtitle}</p>
               </div>
             </div>
