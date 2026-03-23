@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { APP_NAME } from "../constants/appName";
-import { STORAGE_KEYS } from "../constants/storageKeys";
+import API from "../services/api"; // Updated API with loginUser function
 
 function LoginPage() {
   const [appTitleMain, appTitleSuffix = ""] = APP_NAME.split(" & ");
@@ -9,64 +9,25 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [errorText, setErrorText] = useState("");
 
-  const readJson = (raw, fallback) => {
-    try {
-      return JSON.parse(raw ?? "");
-    } catch {
-      return fallback;
-    }
-  };
-
-  const getAllAccounts = () => {
-    const accounts = readJson(
-      window.localStorage.getItem(STORAGE_KEYS.accounts),
-      [],
-    );
-    const list = Array.isArray(accounts) ? [...accounts] : [];
-
-    const singleAccount = readJson(
-      window.localStorage.getItem(STORAGE_KEYS.account),
-      null,
-    );
-    if (singleAccount?.email) {
-      list.push(singleAccount);
-    }
-
-    const profile = readJson(window.localStorage.getItem(STORAGE_KEYS.profile), null);
-    if (profile?.email) {
-      list.push({ email: profile.email, password: "" });
-    }
-
-    return list;
-  };
-
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const normalizedEmail = email.trim().toLowerCase();
-    const accounts = getAllAccounts();
+    setErrorText(""); // clear previous errors
 
-    const matchedByEmail = accounts.find(
-      (item) => (item?.email || "").trim().toLowerCase() === normalizedEmail,
-    );
+    try {
+      // Call backend login endpoint
+      const response = await API.post("/auth/login", { email, password });
 
-    if (!matchedByEmail) {
-      setErrorText("No account found. Please sign up first.");
-      return;
+      // Save JWT token in localStorage
+      localStorage.setItem("token", response.data.token);
+
+      // Redirect to protected page
+      window.location.replace("/events"); // or use react-router navigate
+    } catch (err) {
+      console.error(err);
+      setErrorText(
+        err.response?.data?.message || "Login failed. Check your credentials."
+      );
     }
-
-    // Keep auth data consistent and allow login for registered email.
-    const nextAccount = { email: normalizedEmail, password };
-    const nextAccounts = accounts
-      .filter(
-        (item) => (item?.email || "").trim().toLowerCase() !== normalizedEmail,
-      )
-      .concat([nextAccount]);
-
-    window.localStorage.setItem(STORAGE_KEYS.account, JSON.stringify(nextAccount));
-    window.localStorage.setItem(STORAGE_KEYS.accounts, JSON.stringify(nextAccounts));
-    window.localStorage.setItem(STORAGE_KEYS.session, "1");
-    setErrorText("");
-    window.location.replace("/events");
   };
 
   return (
@@ -112,7 +73,7 @@ function LoginPage() {
                     required
                     placeholder=" "
                     value={email}
-                    onChange={(event) => setEmail(event.target.value)}
+                    onChange={(e) => setEmail(e.target.value)}
                     className="peer w-full bg-transparent text-sm text-slate-800 outline-none"
                   />
                   <label className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-500 transition-all peer-focus:top-2 peer-focus:-translate-y-1 peer-focus:text-[11px] peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:-translate-y-1 peer-[:not(:placeholder-shown)]:text-[11px]">
@@ -126,7 +87,7 @@ function LoginPage() {
                     required
                     placeholder=" "
                     value={password}
-                    onChange={(event) => setPassword(event.target.value)}
+                    onChange={(e) => setPassword(e.target.value)}
                     className="peer w-full bg-transparent text-sm text-slate-800 outline-none"
                   />
                   <label className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-500 transition-all peer-focus:top-2 peer-focus:-translate-y-1 peer-focus:text-[11px] peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:-translate-y-1 peer-[:not(:placeholder-shown)]:text-[11px]">
@@ -170,3 +131,7 @@ function LoginPage() {
 }
 
 export default LoginPage;
+    
+
+             
+           
