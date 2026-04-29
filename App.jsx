@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getTasksFromDB } from './services/api';
+import { getTodos  } from './services/api';
 
 function App() {
   const [tasks, setTasks] = useState([]); 
@@ -7,7 +7,7 @@ function App() {
   const [error, setError] = useState(null);    // Step 2: A place to store errors
 
   useEffect(() => {
-    getTasksFromDB()
+    getTodos()
       .then(response => {
         setTasks(response.data);
         setLoading(false); // Data arrived! Stop loading.
@@ -49,8 +49,8 @@ function App() {
       <div style={{ border: '1px solid #ddd', padding: '20px', display: 'inline-block', borderRadius: '10px' }}>
         <h3>My Tasks from MySQL:</h3>
         {tasks.map(t => (
-          <p key={t.id} style={{ backgroundColor: '#f9f9f9', padding: '10px', borderRadius: '5px' }}>
-            ✅ {t.task_name}
+          <p key={t._id} style={{ backgroundColor: '#f9f9f9', padding: '10px', borderRadius: '5px' }}>
+            ✅ {t.title}
           </p>
         ))}
       </div>

@@ -5,8 +5,8 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 // 🔥 ADD THESE
-const { connectDB } = require('./config/sql');
-const authRoutes = require('./routes/AuthRoutes');
+//const { connectDB } = require('./config/sql');
+//const authRoutes = require('./routes/AuthRoutes');
 
 const app = express();
 
@@ -15,7 +15,7 @@ app.use(cors());
 app.use(express.json());
 
 // 🔥 CONNECT MSSQL (for auth)
-connectDB();
+//connectDB();
 
 // Connect to MongoDB (for todos)
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/smart_campus';
@@ -25,7 +25,7 @@ mongoose.connect(MONGO_URI)
     .catch(err => console.error("❌ MongoDB Connection Error:", err));
 
 // 🔥 ADD AUTH ROUTES
-app.use('/api/auth', authRoutes);
+//app.use('/api/auth', authRoutes);
 
 // Existing todo routes
 const todoRoutes = require('./routes/todoRoutes');
