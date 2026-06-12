@@ -73,9 +73,11 @@ function NotificationButton() {
         aria-label="Notifications"
       >
         <span className="text-lg">🔔</span>
-        <span className="absolute -right-2 -top-2 rounded-full bg-red-500 px-1.5 py-0.5 text-[10px] font-bold text-white">
-          {counterLabel}
-        </span>
+        {counterLabel !== "0" && (
+            <span className="absolute -right-2 -top-2 rounded-full bg-red-500 px-1.5 py-0.5 text-[10px] font-bold text-white">
+                {counterLabel}
+            </span>
+        )}
       </button>
 
       {open && (
