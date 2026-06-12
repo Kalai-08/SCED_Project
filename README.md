@@ -17,6 +17,7 @@ A full-stack task management app with JWT authentication and email reminders.
 
 ## Project Structure
 
+```
 SCED_Project/
 ├── backend/
 │   ├── config/         → MySQL connection
@@ -33,23 +34,38 @@ SCED_Project/
 │       └── services/   → Axios API calls
 └── db/
     └── database_schema.sql
+```
 
 ## Getting Started
 
 ### Backend
+```bash
 cd backend
-cp .env.example .env    ← fill in your values
+cp .env.example .env
 npm install
 npm start
+```
 
 ### Frontend
+```bash
 cd frontend
 npm install
 npm run dev
+```
 
 ## Environment Variables
 
-See backend/.env.example — needs:
-- DB_HOST, DB_USER, DB_PASSWORD, DB_NAME
-- JWT_SECRET
-- EMAIL_USER, EMAIL_PASS
+Create `backend/.env` using `backend/.env.example` as reference:
+
+| Variable | Description |
+|---|---|
+| `PORT` | Server port (default: 5000) |
+| `MYSQL_HOST` | MySQL host |
+| `MYSQL_USER` | MySQL username |
+| `MYSQL_PASSWORD` | MySQL password |
+| `MYSQL_DATABASE` | Database name |
+| `JWT_SECRET` | Secret key for JWT tokens |
+| `EMAIL_USER` | Gmail address for sending reminders |
+| `EMAIL_PASS` | Gmail App Password |
+| `TZ` | Timezone (e.g. Asia/Colombo) |
+| `REMINDER_CRON` | Cron schedule for reminders |
