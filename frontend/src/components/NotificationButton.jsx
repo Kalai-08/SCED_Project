@@ -69,7 +69,7 @@ function NotificationButton() {
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className="relative rounded-lg border border-slate-300 bg-white p-2 text-blue-800 transition hover:bg-blue-50"
+        className="relative flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 bg-white text-blue-800 transition hover:bg-blue-50"
         aria-label="Notifications"
       >
         <span className="text-lg">🔔</span>

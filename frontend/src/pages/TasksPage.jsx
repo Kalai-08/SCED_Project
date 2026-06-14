@@ -601,26 +601,9 @@ function TasksPage() {
                       ...prev,
                       dueDate: event.target.value,
                     }))
-                }
-                  min={new Date().toISOString().slice(0, 10)} 
-                  max="2099-12-31" 
-                  onChange={(event) =>
-                    setForm((prev) => ({ ...prev, dueDate: event.target.value }))
                   }
-                  required
-                  className={inputClass}
-                />
-              </div>
-
-              <div>
-                <label className={fieldLabelClass}>Time</label>
-                <input
-                  type="time"
-                  value={form.eventTime}
-                  onChange={(event) =>
-                    setForm((prev) => ({ ...prev, eventTime: event.target.value }))
-                  }
-                  step="60"
+                  min={new Date().toISOString().slice(0, 10)}
+                  max="2099-12-31"
                   required
                   className={inputClass}
                 />

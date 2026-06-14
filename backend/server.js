@@ -13,11 +13,18 @@ const { initMySQL } = require('./config/mysql');
 
 const app = express();
 
-const allowedOrigin = process.env.ALLOWED_ORIGIN || 'http://localhost:5173';
+const allowedOrigins = (process.env.ALLOWED_ORIGIN || 'http://localhost:5173').split(',');
 app.use(cors({
-    origin: allowedOrigin,
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true,
 }));
+
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);

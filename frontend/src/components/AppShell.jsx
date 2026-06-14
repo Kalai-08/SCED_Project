@@ -90,23 +90,21 @@ function AppShell() {
       <div className="flex min-h-full flex-col overflow-hidden">
         <header className="z-10 shrink-0 border-b border-slate-700/60 bg-slate-900 px-3 py-3 sm:px-4">
           <div className="mx-auto max-w-7xl">
-            <div className="flex items-start justify-between gap-3">
+            <div className="flex items-center justify-between gap-3">
               <div className="min-w-0">
-                <div className="inline-flex rounded-2xl border border-blue-900/20 bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 px-3.5 py-1.5 shadow-lg shadow-blue-900/20 ring-1 ring-white/30">
-                  <h1 className="leading-tight text-white">
-                    <span className="block text-sm font-extrabold tracking-wide sm:text-base">
-                      {appTitleMain}
-                    </span>
-                    {appTitleSuffix && (
-                      <span className="block text-right text-[10px] font-semibold tracking-wide text-blue-100 sm:text-xs">
-                        &amp; {appTitleSuffix}
-                      </span>
-                    )}
-                  </h1>
-                </div>
+                <div className="inline-flex flex-col rounded-xl border border-blue-900/20 bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 px-3 py-1 shadow-md shadow-blue-900/20 ring-1 ring-white/20 leading-none">
+                                <span className="text-sm font-extrabold tracking-wide text-white sm:text-base">
+                                  {appTitleMain}
+                                </span>
+                                {appTitleSuffix && (
+                                  <span className="text-[10px] font-medium tracking-wide text-blue-100 sm:text-xs">
+                                    &amp; {appTitleSuffix}
+                                  </span>
+                                )}
+                              </div>
               </div>
 
-              <div className="flex shrink-0 items-center gap-2">
+              <div className="flex shrink-0 items-center gap-3">
                 <NotificationButton />
                 <div className="relative" ref={profileRef}>
                   <button

@@ -7,7 +7,7 @@ import { STORAGE_KEYS } from "./constants/storageKeys";
 
 function ProtectedRoute({ children }) {
   const isLoggedIn =
-    window.localStorage.getItem(STORAGE_KEYS.session) === "1" ||
+    window.localStorage.getItem(STORAGE_KEYS.session) === "1" &&
     Boolean(window.localStorage.getItem("token"));
 
   return isLoggedIn ? children : <Navigate to="/login" replace />;
