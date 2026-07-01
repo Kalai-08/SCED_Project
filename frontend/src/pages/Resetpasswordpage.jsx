@@ -26,7 +26,7 @@ function ResetPasswordPage() {
     try {
       await resetPassword(token, password);
       setSuccessText("Password reset successful. You can now log in.");
-      window.setTimeout(() => window.location.replace("/login"), 1200);
+      window.setTimeout(() => navigate("/login", { replace: true }), 1200);
     } catch (err) {
       setErrorText(
         err.response?.data?.message ||

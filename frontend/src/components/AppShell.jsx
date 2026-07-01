@@ -44,7 +44,7 @@ function AppShell() {
   const handleLogout = () => {
     window.localStorage.removeItem(STORAGE_KEYS.session);
     window.localStorage.removeItem("token");
-    window.location.replace("/login");
+    navigate("/login", { replace: true });
   };
 
   const openPanel = (panel) => {

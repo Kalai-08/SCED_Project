@@ -30,7 +30,7 @@ function LoginPage() {
         );
       }
 
-      window.location.replace("/events");
+      navigate("/events", { replace: true });
     } catch (err) {
       console.error(err);
       localStorage.removeItem("token");

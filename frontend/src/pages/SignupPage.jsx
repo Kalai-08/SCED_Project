@@ -61,7 +61,7 @@ function SignupPage() {
         email: response.data.user?.email,
       });
       setSuccessText("Registration successful. Please login.");
-      window.setTimeout(() => window.location.replace("/login"), 700);
+      window.setTimeout(() => navigate("/login", { replace: true }), 700);
     } catch (err) {
       if (err.response) {
         setErrorText(
@@ -72,7 +72,7 @@ function SignupPage() {
 
       saveLocalAccount();
       setSuccessText("Registration successful. Please login.");
-      window.setTimeout(() => window.location.replace("/login"), 700);
+      window.setTimeout(() => navigate("/login", { replace: true }), 700);
     }
   };
 
