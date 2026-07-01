@@ -3,7 +3,7 @@ import AppShell from "./components/AppShell";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
-import ResetPasswordPage from "./pages/ResetPasswordPage";
+import ResetPasswordPage from "./pages/Resetpasswordpage";
 import TasksPage from "./pages/TasksPage";
 import { STORAGE_KEYS } from "./constants/storageKeys";
 
