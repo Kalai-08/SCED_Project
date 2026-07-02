@@ -1,9 +1,10 @@
-import { Link, useParams, navigate } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { APP_NAME } from "../constants/appName";
 import { resetPassword } from "../services/api";
 
 function ResetPasswordPage() {
+  const navigate = useNavigate();
   const { token } = useParams();
   const [appTitleMain, appTitleSuffix = ""] = APP_NAME.split(" & ");
   const [password, setPassword] = useState("");

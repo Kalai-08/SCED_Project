@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Outlet, useLocation, useNavigate, navigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate} from "react-router-dom";
 import NotificationButton from "./NotificationButton";
 import { APP_NAME } from "../constants/appName";
 import { STORAGE_KEYS } from "../constants/storageKeys";

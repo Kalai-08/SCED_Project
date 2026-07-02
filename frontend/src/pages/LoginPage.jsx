@@ -1,10 +1,11 @@
-import { Link,navigate } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { APP_NAME } from "../constants/appName";
 import { STORAGE_KEYS } from "../constants/storageKeys";
 import { loginUser } from "../services/api";
 
 function LoginPage() {
+  const navigate = useNavigate();
   const [appTitleMain, appTitleSuffix = ""] = APP_NAME.split(" & ");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
