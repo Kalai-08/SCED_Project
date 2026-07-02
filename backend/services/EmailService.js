@@ -1,10 +1,10 @@
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function assertEmailConfig() {
-    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-        throw new Error("EMAIL_USER and EMAIL_PASS must be set to send reminder emails");
+    if (!process.env.RESEND_API_KEY) {
+        throw new Error("RESEND_API_KEY must be set to send emails");
     }
 }
 
@@ -14,26 +14,17 @@ function assertValidEmail(email) {
     }
 }
 
-function createTransporter() {
+function getClient() {
     assertEmailConfig();
-    return nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 587,
-        secure: false, 
-        family: 4, // force IPv4 — avoids Railway IPv6 egress issues
-        auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS,
-        },
-    });
+    return new Resend(process.env.RESEND_API_KEY);
 }
 
 async function sendPasswordReset(user, resetLink) {
     assertValidEmail(user.email);
 
-    const transporter = createTransporter();
-    await transporter.sendMail({
-        from: `"Smart Campus" <${process.env.EMAIL_USER}>`,
+    const resend = getClient();
+    await resend.emails.send({
+        from: 'Smart Campus <onboarding@resend.dev>',
         to: user.email,
         subject: 'Reset your Smart Campus password',
         html: `
@@ -52,7 +43,6 @@ async function sendPasswordReset(user, resetLink) {
             </div>`,
     });
 }
-
 
 function formatDeadline(dt) {
     return new Date(dt).toLocaleString('en-US', {
@@ -89,13 +79,13 @@ async function sendReminder(task, reminderText) {
             </div>
         </div>`;
 
-    const transporter = createTransporter();
-    await transporter.sendMail({
-        from: `"Smart Campus" <${process.env.EMAIL_USER}>`,
+    const resend = getClient();
+    await resend.emails.send({
+        from: 'Smart Campus <onboarding@resend.dev>',
         to: task.user_email,
         subject,
         html,
     });
 }
 
-module.exports = { sendReminder,sendPasswordReset };
+module.exports = { sendReminder, sendPasswordReset };
