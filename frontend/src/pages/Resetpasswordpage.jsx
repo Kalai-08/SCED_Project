@@ -1,5 +1,5 @@
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { APP_NAME } from "../constants/appName";
 import { resetPassword } from "../services/api";
 
@@ -13,10 +13,25 @@ function ResetPasswordPage() {
   const [successText, setSuccessText] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  useEffect(() => {
+    if (!token) {
+      setErrorText(
+        "This reset link is missing or invalid. Please request a new one."
+      );
+    }
+  }, [token]);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setErrorText("");
     setSuccessText("");
+
+    if (!token) {
+      setErrorText(
+        "This reset link is missing or invalid. Please request a new one."
+      );
+      return;
+    }
 
     if (password !== confirmPassword) {
       setErrorText("Password and confirm password do not match.");
@@ -81,7 +96,7 @@ function ResetPasswordPage() {
 
               <form className="space-y-5 sm:space-y-10" onSubmit={handleSubmit}>
                 <div className="group relative my-3 rounded-xl border border-slate-300/90 bg-white/70 px-3 pb-3 pt-6 transition focus-within:border-blue-500 focus-within:bg-white sm:my-6 sm:px-4 sm:pb-5 sm:pt-9">
-                  <input
+                  <input disabled={!token}
                     type="password"
                     required
                     minLength={4}
@@ -97,7 +112,7 @@ function ResetPasswordPage() {
                 </div>
 
                 <div className="group relative my-3 rounded-xl border border-slate-300/90 bg-white/70 px-3 pb-3 pt-6 transition focus-within:border-blue-500 focus-within:bg-white sm:my-6 sm:px-4 sm:pb-5 sm:pt-9">
-                  <input
+                  <input disabled={!token}
                     type="password"
                     required
                     minLength={4}
@@ -113,8 +128,8 @@ function ResetPasswordPage() {
                 </div>
 
                 <button
+                  disabled={isSubmitting || !token}
                   type="submit"
-                  disabled={isSubmitting}
                   className="w-full rounded-md border-2 border-transparent bg-slate-900 py-2.5 text-sm font-bold text-white transition hover:border-slate-900 hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60 sm:py-4 sm:text-lg"
                 >
                   {isSubmitting ? "Resetting..." : "Reset Password"}

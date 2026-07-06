@@ -19,6 +19,10 @@ function LoginPage() {
       const response = await loginUser({ email, password });
       localStorage.setItem("token", response.data.token);
       localStorage.setItem(STORAGE_KEYS.session, "1");
+      localStorage.setItem(STORAGE_KEYS.profile, JSON.stringify({
+        name: response.data.user.name,
+        email: response.data.user.email
+      }));
       if (response.data.user) {
         localStorage.setItem(
           STORAGE_KEYS.profile,
