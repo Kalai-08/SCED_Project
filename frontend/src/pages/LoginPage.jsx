@@ -1,11 +1,13 @@
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { APP_NAME } from "../constants/appName";
 import { STORAGE_KEYS } from "../constants/storageKeys";
 import { loginUser } from "../services/api";
+import { useAppContext } from "../context/AppContext";
 
 function LoginPage() {
   const navigate = useNavigate();
+  const { updateProfile } = useAppContext();
   const [appTitleMain, appTitleSuffix = ""] = APP_NAME.split(" & ");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,20 +21,14 @@ function LoginPage() {
       const response = await loginUser({ email, password });
       localStorage.setItem("token", response.data.token);
       localStorage.setItem(STORAGE_KEYS.session, "1");
-      localStorage.setItem(STORAGE_KEYS.profile, JSON.stringify({
-        name: response.data.user.name,
-        email: response.data.user.email
-      }));
+
       if (response.data.user) {
-        localStorage.setItem(
-          STORAGE_KEYS.profile,
-          JSON.stringify({
-            name: response.data.user.name,
-            email: response.data.user.email,
-            avatarUrl: "",
-            joinedDate: new Date().toISOString().slice(0, 10),
-          }),
-        );
+        updateProfile({
+          name: response.data.user.name,
+          email: response.data.user.email,
+          avatarUrl: "",
+          joinedDate: new Date().toISOString().slice(0, 10),
+        });
       }
 
       navigate("/events", { replace: true });
